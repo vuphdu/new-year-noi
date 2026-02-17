@@ -449,7 +449,7 @@
     <div class="overlay"></div>
 
     <!-- Custom Controls -->
-    <div class="sound-btn" id="soundBtn">🔇</div>
+    <div class="sound-btn" id="soundBtn">�</div>
     <audio id="bg-music" loop autoplay>
       <source src="music/snaptt.me-64575951.mp3" type="audio/mpeg" />
     </audio>
@@ -915,7 +915,8 @@
             );
           }).catch(e => {
              console.log("Autoplay failed, waiting for interaction", e);
-             soundBtn.innerText = "🔇";
+             // Keep icon as 🔊 to indicate desired state.
+             // It will play on first interaction.
              isPlaying = false;
           });
         }
