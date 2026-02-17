@@ -450,7 +450,7 @@
 
     <!-- Custom Controls -->
     <div class="sound-btn" id="soundBtn">🔇</div>
-    <audio id="bg-music" loop>
+    <audio id="bg-music" loop autoplay>
       <source src="music/snaptt.me-64575951.mp3" type="audio/mpeg" />
     </audio>
 
@@ -903,10 +903,31 @@
       const audio = document.getElementById("bg-music");
       let isPlaying = false;
 
-      // Try to auto-play (might be blocked by browser policy)
-      window.addEventListener('click', () => {
-        if (!isPlaying) toggleMusic();
-      }, { once: true });
+      // Unmute/Play on first interaction
+      function enableAudio() {
+        if (!isPlaying) {
+          audio.play().then(() => {
+            soundBtn.innerText = "🔊";
+            isPlaying = true;
+            // Remove listeners once played
+            ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => 
+              window.removeEventListener(event, enableAudio)
+            );
+          }).catch(e => {
+             console.log("Autoplay failed, waiting for interaction", e);
+             soundBtn.innerText = "🔇";
+             isPlaying = false;
+          });
+        }
+      }
+
+      // Try to play immediately (often blocked)
+      enableAudio();
+
+      // Listen for any user interaction to start audio
+      ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => 
+        window.addEventListener(event, enableAudio, { once: true })
+      );
 
       soundBtn.addEventListener("click", (e) => {
         e.stopPropagation();
