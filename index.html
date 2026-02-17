@@ -443,6 +443,43 @@
         }
       }
 
+      /* ─── Heart Button ─── */
+      .heart-btn {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        background: rgba(255, 105, 180, 0.15);
+        border: 1px solid rgba(255, 105, 180, 0.3);
+        backdrop-filter: blur(4px);
+        border-radius: 20px;
+        padding: 6px 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+        z-index: 5;
+      }
+      .heart-btn:active {
+        transform: scale(0.9);
+      }
+      .heart-btn.liked {
+        background: rgba(255, 105, 180, 0.4);
+        border-color: rgba(255, 105, 180, 0.6);
+      }
+      .heart-btn .icon {
+        font-size: 1.1rem;
+        transition: transform 0.2s;
+      }
+      .heart-btn.liked .icon {
+        transform: scale(1.2);
+      }
+      .heart-btn .count {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: #ffdae9;
+      }
+
       /* ─── Splash Screen ─── */
       #splash-screen {
         position: fixed;
@@ -533,6 +570,7 @@
         <div class="message">
           Năm mới đến, mong nhà mình luôn đong đầy <strong>tiếng cười</strong>, trọn vẹn <strong>yêu thương</strong> và quan trọng nhất là ai cũng thật <strong>dồi dào sức khỏe</strong>. Chúc mọi người một năm Bính Ngọ vạn sự như ý, tỷ sự như mơ! 🧧✨
         </div>
+        <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
       </div>
 
       <!-- Greeting Cards -->
@@ -546,6 +584,7 @@
           <div class="message">
             Hai cháu Trũi kính chúc ông bà nội luôn <strong>mạnh khỏe</strong>, sống vui sống thọ bên con cháu. Ông bà là <strong>gốc rễ yêu thương</strong> của cả đại gia đình mình, cháu mong ông bà luôn cười khỏe mỗi ngày ạ! ❤️👴👵
           </div>
+          <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
         </div>
 
         <div class="greeting-card">
@@ -554,6 +593,7 @@
           <div class="message">
             Chúc cô chú năm mới <strong>vạn sự hanh thông</strong>, gia đình luôn ấm áp và tràn ngập tiếng cười. Mong cô chú luôn <strong>hạnh phúc bên nhau</strong>, công việc thuận lợi và gặt hái thật nhiều thành công nhé! 💖🏡✨
           </div>
+          <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
         </div>
 
         <div class="greeting-card">
@@ -562,6 +602,7 @@
           <div class="message">
             Chúc chú thím sang năm mới luôn <strong>khỏe mạnh</strong>, yêu đời và ngập tràn niềm vui. Mong gia đình chú thím luôn <strong>hòa thuận, ấm cúng</strong> và mọi điều tốt đẹp nhất sẽ đến trong năm Bính Ngọ! 🌟🍀😊
           </div>
+          <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
         </div>
 
         <div class="greeting-card">
@@ -570,6 +611,7 @@
           <div class="message">
             2 anh Trũi chúc các em gái năm mới <strong>hay ăn chóng lớn</strong>, ngoan ngoãn và xinh xắn hơn mỗi ngày. Mong các em luôn <strong>vui vẻ</strong>, cười thật nhiều và mãi mãi là những cô công chúa nhỏ đáng yêu của cả nhà nhé! 👸🎀💕
           </div>
+          <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
         </div>
 
         <div class="greeting-card">
@@ -578,6 +620,7 @@
           <div class="message">
             Chúc bố mẹ yêu quý một năm mới <strong>hạnh phúc viên mãn</strong>, công việc suôn sẻ và gặt hái được nhiều <strong>thành công</strong> rực rỡ hơn cả năm cũ. Bố mẹ cứ yên tâm, hai cu Trũi sẽ thật ngoan ạ! 🥰🍀🎉
           </div>
+          <div class="heart-btn"><span class="icon">❤️</span><span class="count">0</span></div>
         </div>
       </div>
 
@@ -992,6 +1035,46 @@
           }).catch(e => console.log("Audio play failed:", e));
         }
       }
+
+      // ═══════════════════════════════════════════
+      //  HEART BUTTON LOGIC
+      // ═══════════════════════════════════════════
+      function initHearts() {
+        const buttons = document.querySelectorAll('.heart-btn');
+        buttons.forEach((btn, index) => {
+          const id = 'heart_' + index;
+          // Generate a deterministic "random" count based on index for consistency across reloads if not saved
+          // Or just use random to look like "live" updates. Let's use random for fun.
+          let baseCount = Math.floor(rand(80, 300)); 
+          
+          if (localStorage.getItem(id) === 'true') {
+            btn.classList.add('liked');
+            baseCount++;
+          }
+          btn.querySelector('.count').innerText = baseCount;
+          
+          btn.onclick = (e) => {
+            e.stopPropagation();
+            if (btn.classList.contains('liked')) return;
+            
+            let count = parseInt(btn.querySelector('.count').innerText);
+            count++;
+            btn.querySelector('.count').innerText = count;
+            btn.classList.add('liked');
+            localStorage.setItem(id, 'true');
+            
+            // Sparkling effect
+            const rect = btn.getBoundingClientRect();
+             // Fire a few small bursts near the button
+            for(let i=0; i<3; i++) {
+                setTimeout(() => {
+                    explode(rect.left + rect.width/2 + rand(-20,20), rect.top + rect.height/2 + rand(-20,20), true);
+                }, i * 100);
+            }
+          };
+        });
+      }
+      initHearts();
     </script>
   </body>
 </html>
