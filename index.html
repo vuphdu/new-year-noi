@@ -442,11 +442,59 @@
           opacity: 1;
         }
       }
+
+      /* ─── Splash Screen ─── */
+      #splash-screen {
+        position: fixed;
+        inset: 0;
+        background: #0a0015;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.8s ease-out;
+      }
+      #splash-screen.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .splash-content {
+        text-align: center;
+        animation: pulse 2s infinite;
+        cursor: pointer;
+      }
+      .splash-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        display: block;
+      }
+      .splash-text {
+        font-family: "Dancing Script", cursive;
+        font-size: 2rem;
+        color: #ffd700;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+      .splash-hint {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 10px;
+        letter-spacing: 1px;
+      }
     </style>
   </head>
   <body>
     <canvas id="fireworks"></canvas>
     <div class="overlay"></div>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+      <div class="splash-content">
+        <span class="splash-icon">💌</span>
+        <div class="splash-text">Chạm để mở thiệp</div>
+        <div class="splash-hint">(Touch to open)</div>
+      </div>
+    </div>
 
     <!-- Custom Controls -->
     <div class="sound-btn" id="soundBtn">�</div>
@@ -903,33 +951,30 @@
       const audio = document.getElementById("bg-music");
       let isPlaying = false;
 
-      // Unmute/Play on first interaction
-      function enableAudio() {
+      // Splash Screen Logic (The primary interaction point)
+      const splashScreen = document.getElementById("splash-screen");
+      splashScreen.addEventListener("click", () => {
+        // Play audio immediately on user interaction
         if (!isPlaying) {
           audio.play().then(() => {
             soundBtn.innerText = "🔊";
             isPlaying = true;
-            // Remove listeners once played
-            ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => 
-              window.removeEventListener(event, enableAudio)
-            );
-          }).catch(e => {
-             console.log("Autoplay failed, waiting for interaction", e);
-             // Keep icon as 🔊 to indicate desired state.
-             // It will play on first interaction.
-             isPlaying = false;
-          });
+          }).catch(e => console.log("Splash play failed", e));
         }
-      }
+        
+        // Explode some fireworks for effect
+        explode(W / 2, H / 2);
+        setTimeout(() => explode(W / 2 - 100, H / 3), 200);
+        setTimeout(() => explode(W / 2 + 100, H / 3), 400);
 
-      // Try to play immediately (often blocked)
-      enableAudio();
+        // Fade out
+        splashScreen.classList.add("hidden");
+        setTimeout(() => {
+          splashScreen.style.display = "none";
+        }, 800);
+      });
 
-      // Listen for any user interaction to start audio
-      ['click', 'touchstart', 'scroll', 'keydown'].forEach(event => 
-        window.addEventListener(event, enableAudio, { once: true })
-      );
-
+      // Sound Toggle Button
       soundBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         toggleMusic();
