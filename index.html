@@ -152,7 +152,8 @@
         -webkit-backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 16px;
-        padding: 18px 20px;
+        border-radius: 16px;
+        padding: 18px 20px 50px; /* Increased bottom padding for heart button */
         margin-bottom: 14px;
         width: 100%;
         position: relative;
@@ -259,7 +260,7 @@
         border-bottom: 2px solid rgba(255, 215, 0, 0.3);
         border-top: 2px solid rgba(255, 215, 0, 0.3);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        max-height: 280px;
+        max-height: 220px; /* Reduced height */
       }
 
       .intro .photo-row {
@@ -1037,35 +1038,66 @@
       }
 
       // ═══════════════════════════════════════════
-      //  HEART BUTTON LOGIC
+      //  HEART BUTTON LOGIC (Persistent via counterapi.dev)
       // ═══════════════════════════════════════════
       function initHearts() {
         const buttons = document.querySelectorAll('.heart-btn');
+        const namespace = 'new-year-noi-v1';
+
         buttons.forEach((btn, index) => {
-          const id = 'heart_' + index;
-          // Generate a deterministic "random" count based on index for consistency across reloads if not saved
-          // Or just use random to look like "live" updates. Let's use random for fun.
-          let baseCount = Math.floor(rand(80, 300)); 
+          const key = 'card_' + index;
+          const countEl = btn.querySelector('.count');
           
-          if (localStorage.getItem(id) === 'true') {
-            btn.classList.add('liked');
-            baseCount++;
-          }
-          btn.querySelector('.count').innerText = baseCount;
+          // Helper: Format display count (API + 100 offset)
+          const setDisplay = (val) => {
+            const count = Number(val) || 0; // Safety check
+            countEl.innerText = count + 100;
+          };
+
+          // 1. Fetch current count on load
+          fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/`)
+            .then(res => res.json())
+            .then(data => {
+              // API returns { count: 123 }
+              // If key doesn't exist, it might NOT return count.
+              // We default to 0.
+              setDisplay(data.count || 0); 
+              
+              // Check local storage to see if THIS user already liked it
+              if (localStorage.getItem(key) === 'true') {
+                 btn.classList.add('liked');
+              }
+            })
+            .catch(err => {
+              console.error("Count fetch error:", err);
+              // Fallback to local storage or 100 if offline
+              setDisplay(0); 
+            });
           
+          // 2. Click Handler
           btn.onclick = (e) => {
             e.stopPropagation();
-            if (btn.classList.contains('liked')) return;
+            // User requested multiple likes allowed
             
-            let count = parseInt(btn.querySelector('.count').innerText);
-            count++;
-            btn.querySelector('.count').innerText = count;
+            // Visual update immediately (optimistic)
+            let currentDisplay = parseInt(countEl.innerText);
+            setDisplay(currentDisplay - 100 + 1); // increment the underlying val
+            
+            // Add 'liked' class for visual feedback (stays pink)
             btn.classList.add('liked');
-            localStorage.setItem(id, 'true');
+            
+            // Send update to API
+            fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`)
+              .then(res => res.json())
+              .then(data => {
+                // Sync with server truth
+                setDisplay(data.count); 
+              })
+              .catch(err => console.error("Count up error:", err));
             
             // Sparkling effect
             const rect = btn.getBoundingClientRect();
-             // Fire a few small bursts near the button
+            // Fire a few small bursts near the button
             for(let i=0; i<3; i++) {
                 setTimeout(() => {
                     explode(rect.left + rect.width/2 + rand(-20,20), rect.top + rect.height/2 + rand(-20,20), true);
