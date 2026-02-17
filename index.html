@@ -1,0 +1,894 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Chúc Mừng Năm Mới 2026 🎆</title>
+    <meta
+      name="description"
+      content="Thiệp chúc mừng năm mới 2026 từ 2 cu Trũi gửi tới cả nhà"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Quicksand", sans-serif;
+        background: #0a0015;
+        color: #fff;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* ─── Fireworks Canvas ─── */
+      #fireworks {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* ─── Overlay gradient so text is readable ─── */
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(10, 0, 21, 0.15) 0%,
+          rgba(10, 0, 21, 0.35) 50%,
+          rgba(10, 0, 21, 0.65) 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* ─── Screen flash on explosion ─── */
+      .screen-flash {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.05s ease-out;
+      }
+      .screen-flash.active {
+        opacity: 1;
+        transition: opacity 0.05s ease-out;
+      }
+
+      /* ─── Main Content ─── */
+      .container {
+        position: relative;
+        z-index: 2;
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 40px 20px 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* ─── Year Badge ─── */
+      .year-badge {
+        font-family: "Dancing Script", cursive;
+        font-size: 4.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #ffd700, #ff6b6b, #ffd700);
+        background-size: 200% 200%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: shimmer 3s ease-in-out infinite;
+        text-shadow: none;
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+        margin-bottom: 4px;
+        letter-spacing: 2px;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+      }
+
+      .subtitle {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #ffd700;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-bottom: 8px;
+        text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      }
+
+      /* ─── Decorative line ─── */
+      .divider {
+        width: 60%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        margin: 16px 0 28px;
+        border-radius: 1px;
+      }
+
+      /* ─── Greeting intro ─── */
+      .intro {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.5rem;
+        color: #ff9f43;
+        text-align: center;
+        margin-bottom: 28px;
+        line-height: 1.6;
+        text-shadow: 0 0 10px rgba(255, 159, 67, 0.3);
+        animation: fadeInUp 1s ease 0.5s both;
+      }
+
+      /* ─── Greeting Cards ─── */
+      .greeting-card {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 18px 20px;
+        margin-bottom: 14px;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        animation: fadeInUp 0.8s ease both;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .greeting-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        border-radius: 16px 16px 0 0;
+      }
+
+      .greeting-card:nth-child(1)::before {
+        background: linear-gradient(90deg, #ff6b6b, #ffd700);
+      }
+      .greeting-card:nth-child(2)::before {
+        background: linear-gradient(90deg, #a29bfe, #74b9ff);
+      }
+      .greeting-card:nth-child(3)::before {
+        background: linear-gradient(90deg, #fd79a8, #e17055);
+      }
+      .greeting-card:nth-child(4)::before {
+        background: linear-gradient(90deg, #55efc4, #00cec9);
+      }
+      .greeting-card:nth-child(5)::before {
+        background: linear-gradient(90deg, #ffeaa7, #fdcb6e);
+      }
+      .greeting-card:nth-child(6)::before {
+        background: linear-gradient(90deg, #dfe6e9, #b2bec3);
+      }
+
+      .greeting-card:active {
+        transform: scale(0.98);
+      }
+
+      .greeting-card .emoji {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .greeting-card .to {
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #ffd700;
+        margin-bottom: 6px;
+        letter-spacing: 0.5px;
+      }
+
+      .greeting-card .message {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+      }
+
+      /* ─── Photo thumbnails ─── */
+      .photo-row {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .photo-thumb {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid rgba(255, 215, 0, 0.5);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .photo-thumb:active {
+        transform: scale(1.1);
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+      }
+
+      .photo-thumb.large {
+        width: 100px;
+        height: 100px;
+      }
+
+      .photo-group {
+        display: block;
+        width: calc(100% + 40px);
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-bottom: 14px;
+        border-radius: 0;
+        object-fit: cover;
+        object-position: top;
+        border: none;
+        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        border-top: 2px solid rgba(255, 215, 0, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        max-height: 280px;
+      }
+
+      .intro .photo-row {
+        margin-top: 16px;
+        margin-bottom: 0;
+      }
+
+      .intro .photo-thumb {
+        width: 100px;
+        height: 100px;
+        border-color: rgba(255, 159, 67, 0.6);
+        box-shadow: 0 0 20px rgba(255, 159, 67, 0.3);
+      }
+
+      /* ─── Footer ─── */
+      .footer {
+        margin-top: 32px;
+        text-align: center;
+        animation: fadeInUp 1s ease 2s both;
+      }
+
+      .footer .hearts {
+        font-size: 1.8rem;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      .footer .from {
+        font-family: "Dancing Script", cursive;
+        font-size: 1.4rem;
+        color: #ff6b81;
+        margin-top: 8px;
+        text-shadow: 0 0 10px rgba(255, 107, 129, 0.3);
+      }
+
+      .footer .year-text {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 12px;
+        letter-spacing: 2px;
+      }
+
+      /* ─── Animations ─── */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      /* ─── Stagger animations for cards ─── */
+      .greetings .greeting-card:nth-child(1) {
+        animation-delay: 0.7s;
+      }
+      .greetings .greeting-card:nth-child(2) {
+        animation-delay: 0.9s;
+      }
+      .greetings .greeting-card:nth-child(3) {
+        animation-delay: 1.1s;
+      }
+      .greetings .greeting-card:nth-child(4) {
+        animation-delay: 1.3s;
+      }
+      .greetings .greeting-card:nth-child(5) {
+        animation-delay: 1.5s;
+      }
+      .greetings .greeting-card:nth-child(6) {
+        animation-delay: 1.7s;
+      }
+
+      /* ─── Floating particles ─── */
+      .particle {
+        position: fixed;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 1;
+        animation: float-up linear infinite;
+      }
+
+      @keyframes float-up {
+        0% {
+          transform: translateY(100vh) scale(0);
+          opacity: 0;
+        }
+        10% {
+          opacity: 1;
+        }
+        90% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-10vh) scale(1);
+          opacity: 0;
+        }
+      }
+
+      /* ─── Sound toggle button ─── */
+      .sound-btn {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        color: #fff;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+      }
+      .sound-btn:active {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      /* ─── Sparkle around year ─── */
+      .sparkle-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      .sparkle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #ffd700;
+        border-radius: 50%;
+        animation: sparkle-anim 2s ease-in-out infinite;
+      }
+
+      .sparkle:nth-child(1) {
+        top: 10%;
+        left: -10%;
+        animation-delay: 0s;
+      }
+      .sparkle:nth-child(2) {
+        top: 0;
+        right: -8%;
+        animation-delay: 0.5s;
+      }
+      .sparkle:nth-child(3) {
+        bottom: 10%;
+        left: -5%;
+        animation-delay: 1s;
+      }
+      .sparkle:nth-child(4) {
+        bottom: 5%;
+        right: -5%;
+        animation-delay: 1.5s;
+      }
+
+      @keyframes sparkle-anim {
+        0%,
+        100% {
+          transform: scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="fireworks"></canvas>
+    <div class="overlay"></div>
+
+    <!-- Floating ambient particles -->
+    <div id="particles"></div>
+
+    <div class="container">
+      <!-- Year Display -->
+      <div class="sparkle-container">
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <span class="sparkle"></span>
+        <div class="year-badge">2026</div>
+      </div>
+      <div class="subtitle">Chúc Mừng Năm Mới</div>
+      <div class="divider"></div>
+
+      <!-- Intro -->
+      <div class="intro">
+        🧒🧒 2 cu Trũi<br />gửi lời chúc tới cả nhà 🏠
+        <div class="photo-row">
+          <img src="pic/b%C3%A1ch.jpg" alt="Bách" class="photo-thumb" />
+          <img src="pic/phong.jpg" alt="Phong" class="photo-thumb" />
+        </div>
+      </div>
+
+      <!-- General wish -->
+      <div class="greeting-card" style="animation-delay: 0.5s">
+        <span class="emoji">🌸</span>
+        <div class="to">Gửi Cả Gia Đình Thân Yêu</div>
+        <div class="message">
+          Năm mới đến, mong nhà mình luôn đong đầy <strong>tiếng cười</strong>, trọn vẹn <strong>yêu thương</strong> và quan trọng nhất là ai cũng thật <strong>dồi dào sức khỏe</strong>. Chúc mọi người một năm Ất Tỵ vạn sự như ý, tỷ sự như mơ! 🧧✨
+        </div>
+      </div>
+
+      <!-- Greeting Cards -->
+      <div class="greetings">
+        <div class="greeting-card">
+          <div class="photo-row">
+            <img src="pic/%C3%B4ng%20n%E1%BB%99i.jpg" alt="Ông Nội" class="photo-thumb large" />
+            <img src="pic/b%C3%A0%20n%E1%BB%99i.jpg" alt="Bà Nội" class="photo-thumb large" />
+          </div>
+          <div class="to">Kính Chúc Ông Bà Nội</div>
+          <div class="message">
+            Hai cháu Trũi kính chúc ông bà nội luôn <strong>mạnh khỏe</strong>, sống vui sống thọ bên con cháu. Ông bà là <strong>gốc rễ yêu thương</strong> của cả đại gia đình mình, cháu mong ông bà luôn cười khỏe mỗi ngày ạ! ❤️👴👵
+          </div>
+        </div>
+
+        <div class="greeting-card">
+          <img src="pic/anh_thuy.jpg" alt="Cô Chú Xuân Anh - Thuỷ" class="photo-group" />
+          <div class="to">Cô Chú Xuân Anh &amp; Thuỷ</div>
+          <div class="message">
+            Chúc cô chú năm mới <strong>vạn sự hanh thông</strong>, gia đình luôn ấm áp và tràn ngập tiếng cười. Mong cô chú luôn <strong>hạnh phúc bên nhau</strong>, công việc thuận lợi và gặt hái thật nhiều thành công nhé! 💖🏡✨
+          </div>
+        </div>
+
+        <div class="greeting-card">
+          <img src="pic/khanhchang.png" alt="Chú Khánh - Thím Chang" class="photo-group" />
+          <div class="to">Chú Khánh &amp; Thím Chang</div>
+          <div class="message">
+            Chúc chú thím sang năm mới luôn <strong>khỏe mạnh</strong>, yêu đời và ngập tràn niềm vui. Mong gia đình chú thím luôn <strong>hòa thuận, ấm cúng</strong> và mọi điều tốt đẹp nhất sẽ đến trong năm Ất Tỵ! 🌟🍀😊
+          </div>
+        </div>
+
+        <div class="greeting-card">
+          <img src="pic/4ae.jpg" alt="Các em Ngân, Hà, Miu" class="photo-group" />
+          <div class="to">Các Em Gái: Ngân, Hà, Miu</div>
+          <div class="message">
+            2 anh Trũi chúc các em gái năm mới <strong>hay ăn chóng lớn</strong>, ngoan ngoãn và xinh xắn hơn mỗi ngày. Mong các em luôn <strong>vui vẻ</strong>, cười thật nhiều và mãi mãi là những cô công chúa nhỏ đáng yêu của cả nhà nhé! 👸🎀💕
+          </div>
+        </div>
+
+        <div class="greeting-card">
+          <img src="pic/vanvu.jpg" alt="Bố Mẹ Vân Vũ" class="photo-group" />
+          <div class="to">Bố Mẹ Vân Vũ</div>
+          <div class="message">
+            Chúc bố mẹ yêu quý một năm mới <strong>hạnh phúc viên mãn</strong>, công việc suôn sẻ và gặt hái được nhiều <strong>thành công</strong> rực rỡ hơn cả năm cũ. Bố mẹ cứ yên tâm, hai cu Trũi sẽ thật ngoan ạ! 🥰🍀🎉
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <div class="hearts">❤️🧡💛💚💙💜</div>
+        <div class="from">Yêu cả nhà nhiều lắm! 🥰</div>
+        <div class="year-text">— Năm Mới 2026 —</div>
+      </div>
+    </div>
+
+    <script>
+      // ═══════════════════════════════════════════
+      //  FIREWORKS ANIMATION (Canvas)
+      // ═══════════════════════════════════════════
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      let W, H;
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      // ── Utility ──
+      const rand = (min, max) => Math.random() * (max - min) + min;
+      const TAU = Math.PI * 2;
+
+      // ── Color palettes ──
+      const palettes = [
+        ["#FF6B6B", "#FFD93D", "#6BCB77", "#4D96FF"],
+        ["#FF9A8B", "#FF6A88", "#FF99AC", "#FCE38A"],
+        ["#a29bfe", "#fd79a8", "#ffeaa7", "#55efc4"],
+        ["#FFD700", "#FF4500", "#00CED1", "#FF69B4"],
+        ["#ff6348", "#ffa502", "#7bed9f", "#70a1ff"],
+        ["#f368e0", "#ff9f43", "#0abde3", "#ee5a24"],
+      ];
+
+      // ── Particle class ──
+      class Particle {
+        constructor(x, y, color, angle, speed, life, size, isWillow = false) {
+          this.x = x;
+          this.y = y;
+          this.color = color;
+          this.angle = angle;
+          this.speed = speed;
+          this.life = life;
+          this.maxLife = life;
+          this.size = size;
+          this.isWillow = isWillow;
+          this.decay = isWillow ? rand(0.005, 0.012) : rand(0.012, 0.025);
+          this.gravity = isWillow ? 0.06 : 0.025;
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+          this.alpha = 1;
+          this.trail = [];
+          this.maxTrail = isWillow ? 18 : 10;
+          this.friction = isWillow ? 0.96 : 0.975;
+        }
+
+        update() {
+          this.trail.push({ x: this.x, y: this.y, alpha: this.alpha * 0.6 });
+          if (this.trail.length > this.maxTrail) this.trail.shift();
+
+          this.vx *= this.friction;
+          this.vy *= this.friction;
+          this.vy += this.gravity;
+          this.x += this.vx;
+          this.y += this.vy;
+          this.alpha -= this.decay;
+          this.size *= 0.993;
+        }
+
+        draw() {
+          // Trail
+          for (let i = 0; i < this.trail.length; i++) {
+            const t = this.trail[i];
+            const ratio = i / this.trail.length;
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, this.size * ratio * 0.6, 0, TAU);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = t.alpha * ratio * 0.4;
+            ctx.fill();
+          }
+
+          // Main particle
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, TAU);
+          ctx.fillStyle = this.color;
+          ctx.globalAlpha = this.alpha;
+          ctx.fill();
+
+          // Glow – only draw when particle is bright enough (perf optimization)
+          if (this.alpha > 0.3 && this.size > 1) {
+            ctx.beginPath();
+            const glowSize = this.size * 4;
+            ctx.arc(this.x, this.y, glowSize, 0, TAU);
+            const g = ctx.createRadialGradient(
+              this.x, this.y, 0,
+              this.x, this.y, glowSize
+            );
+            g.addColorStop(0, this.color);
+            g.addColorStop(1, "transparent");
+            ctx.fillStyle = g;
+            ctx.globalAlpha = this.alpha * 0.4;
+            ctx.fill();
+          }
+
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      // ── Rocket class ──
+      class Rocket {
+        constructor() {
+          this.x = rand(W * 0.1, W * 0.9);
+          this.y = H;
+          this.targetY = rand(H * 0.08, H * 0.38);
+          this.speed = rand(4, 7);
+          this.vy = -this.speed;
+          this.color = "#FFD700";
+          this.trail = [];
+          this.exploded = false;
+          this.size = 3;
+          this.sparkTimer = 0;
+        }
+
+        update() {
+          this.trail.push({ x: this.x, y: this.y });
+          if (this.trail.length > 16) this.trail.shift();
+
+          this.y += this.vy;
+          this.vy *= 0.99;
+          this.x += rand(-0.5, 0.5);
+
+          // Emit sparks while ascending
+          this.sparkTimer++;
+          if (this.sparkTimer % 3 === 0) {
+            particles.push(new Particle(
+              this.x, this.y, '#FFD700',
+              rand(0, TAU), rand(0.2, 0.8), rand(0.3, 0.5), rand(0.5, 1.2)
+            ));
+          }
+
+          if (this.y <= this.targetY || (this.vy > -0.5 && this.y < H * 0.9)) {
+            this.exploded = true;
+          }
+        }
+
+        draw() {
+          // Trail
+          for (let i = 0; i < this.trail.length; i++) {
+            const t = this.trail[i];
+            const ratio = i / this.trail.length;
+            ctx.beginPath();
+            ctx.arc(t.x, t.y, this.size * ratio * 0.6, 0, TAU);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = ratio * 0.4;
+            ctx.fill();
+          }
+
+          // Head with brighter glow
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, TAU);
+          ctx.fillStyle = "#fff";
+          ctx.globalAlpha = 1;
+          ctx.fill();
+
+          // Head glow
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size * 4, 0, TAU);
+          const hg = ctx.createRadialGradient(
+            this.x, this.y, 0,
+            this.x, this.y, this.size * 4
+          );
+          hg.addColorStop(0, 'rgba(255,255,255,0.6)');
+          hg.addColorStop(1, 'transparent');
+          ctx.fillStyle = hg;
+          ctx.globalAlpha = 0.5;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      let particles = [];
+      let rockets = [];
+      let lastRocket = 0;
+      const rocketInterval = 500; // ms between rockets – faster launches
+      const MAX_PARTICLES = 2000; // cap to prevent lag
+
+      // ── Screen flash element ──
+      const flashEl = document.createElement('div');
+      flashEl.className = 'screen-flash';
+      document.body.appendChild(flashEl);
+
+      function screenFlash(color) {
+        flashEl.style.background = `radial-gradient(circle, ${color}33 0%, transparent 70%)`;
+        flashEl.classList.add('active');
+        setTimeout(() => flashEl.classList.remove('active'), 100);
+      }
+
+      function explode(x, y, isSecondary = false) {
+        // Skip if we already have too many particles
+        if (particles.length >= MAX_PARTICLES) return;
+
+        const palette = palettes[Math.floor(rand(0, palettes.length))];
+        const budget = MAX_PARTICLES - particles.length;
+        const desired = isSecondary ? Math.floor(rand(30, 50)) : Math.floor(rand(120, 200));
+        const count = Math.min(desired, budget);
+        // 0 = sphere, 1 = ring, 2 = star, 3 = chrysanthemum, 4 = willow
+        const type = Math.floor(rand(0, 5));
+
+        // Screen flash for primary explosions
+        if (!isSecondary) {
+          screenFlash(palette[0]);
+        }
+
+        for (let i = 0; i < count; i++) {
+          let angle, speed, isWillow = false;
+
+          if (type === 0) {
+            // Sphere burst – big and powerful
+            angle = rand(0, TAU);
+            speed = rand(2, 8);
+          } else if (type === 1) {
+            // Ring – perfect circle
+            angle = (i / count) * TAU;
+            speed = rand(4, 7);
+          } else if (type === 2) {
+            // Star burst – inner & outer layers
+            angle = rand(0, TAU);
+            speed = rand(1, 3.5) + (i % 3 === 0 ? 4 : 0);
+          } else if (type === 3) {
+            // Chrysanthemum – dense and streaky
+            angle = rand(0, TAU);
+            speed = rand(1.5, 6.5);
+          } else {
+            // Willow – drooping trails
+            angle = rand(0, TAU);
+            speed = rand(2, 5.5);
+            isWillow = true;
+          }
+
+          const color = palette[Math.floor(rand(0, palette.length))];
+          const life = rand(0.8, 1);
+          const size = isSecondary ? rand(1.5, 2.5) : rand(2, 4.5);
+          particles.push(new Particle(x, y, color, angle, speed, life, size, isWillow));
+        }
+
+        // Chance for secondary cascading explosions (only if under budget)
+        if (!isSecondary && Math.random() > 0.5 && particles.length < MAX_PARTICLES * 0.7) {
+          const numSec = Math.floor(rand(2, 4));
+          for (let s = 0; s < numSec; s++) {
+            const delay = rand(200, 600);
+            const sx = x + rand(-80, 80);
+            const sy = y + rand(-80, 80);
+            setTimeout(() => explode(sx, sy, true), delay);
+          }
+        }
+
+        // Center flash burst – bright core
+        if (!isSecondary) {
+          ctx.beginPath();
+          ctx.arc(x, y, 30, 0, TAU);
+          const cg = ctx.createRadialGradient(x, y, 0, x, y, 30);
+          cg.addColorStop(0, 'rgba(255,255,255,0.9)');
+          cg.addColorStop(1, 'transparent');
+          ctx.fillStyle = cg;
+          ctx.globalAlpha = 0.8;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      function animate(time) {
+        requestAnimationFrame(animate);
+
+        // Fade effect – slightly slower fade for longer trails
+        ctx.fillStyle = "rgba(10, 0, 21, 0.12)";
+        ctx.fillRect(0, 0, W, H);
+
+        // Launch rockets – throttle when particle count is high
+        if (time - lastRocket > rocketInterval && particles.length < MAX_PARTICLES * 0.8) {
+          const burstCount = Math.random() > 0.4 ? Math.floor(rand(2, 4)) : 1;
+          for (let b = 0; b < burstCount; b++) {
+            setTimeout(() => rockets.push(new Rocket()), b * 150);
+          }
+          lastRocket = time;
+
+          // Occasionally trigger a spontaneous auto-explosion without a rocket
+          if (Math.random() > 0.7) {
+            setTimeout(() => {
+                explode(rand(W * 0.2, W * 0.8), rand(H * 0.1, H * 0.5));
+            }, rand(0, 1000));
+          }
+        }
+
+        // Update & draw rockets (swap-and-pop for O(1) removal)
+        for (let i = rockets.length - 1; i >= 0; i--) {
+          const r = rockets[i];
+          r.update();
+          r.draw();
+          if (r.exploded) {
+            explode(r.x, r.y);
+            rockets[i] = rockets[rockets.length - 1];
+            rockets.pop();
+          }
+        }
+
+        // Update & draw particles (swap-and-pop for O(1) removal)
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i];
+          p.update();
+          p.draw();
+          if (p.alpha <= 0) {
+            particles[i] = particles[particles.length - 1];
+            particles.pop();
+          }
+        }
+      }
+
+      requestAnimationFrame(animate);
+
+      // ═══════════════════════════════════════════
+      //  FLOATING AMBIENT PARTICLES
+      // ═══════════════════════════════════════════
+      (function createAmbientParticles() {
+        const container = document.getElementById("particles");
+        const colors = [
+          "#FFD700",
+          "#FF6B6B",
+          "#a29bfe",
+          "#55efc4",
+          "#ffeaa7",
+          "#fd79a8",
+        ];
+        for (let i = 0; i < 20; i++) {
+          const p = document.createElement("div");
+          p.className = "particle";
+          p.style.left = rand(0, 100) + "%";
+          p.style.background = colors[Math.floor(rand(0, colors.length))];
+          p.style.animationDuration = rand(6, 14) + "s";
+          p.style.animationDelay = rand(0, 8) + "s";
+          p.style.width = p.style.height = rand(2, 5) + "px";
+          p.style.opacity = rand(0.3, 0.7);
+          container.appendChild(p);
+        }
+      })();
+
+      // ═══════════════════════════════════════════
+      //  TAP TO LAUNCH FIREWORKS
+      // ═══════════════════════════════════════════
+      document.addEventListener("click", (e) => {
+        explode(e.clientX, e.clientY);
+      });
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          const touch = e.touches[0];
+          explode(touch.clientX, touch.clientY);
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
+</html>
