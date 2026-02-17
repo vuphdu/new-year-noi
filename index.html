@@ -448,6 +448,12 @@
     <canvas id="fireworks"></canvas>
     <div class="overlay"></div>
 
+    <!-- Custom Controls -->
+    <div class="sound-btn" id="soundBtn">🔇</div>
+    <audio id="bg-music" loop>
+      <source src="music/snaptt.me-64575951.mp3" type="audio/mpeg" />
+    </audio>
+
     <!-- Floating ambient particles -->
     <div id="particles"></div>
 
@@ -465,7 +471,7 @@
 
       <!-- Intro -->
       <div class="intro">
-        🧒🧒 2 cu Trũi<br />gửi lời chúc tới cả nhà 🏠
+        🧒 2 cu Trũi 🧒<br />gửi lời chúc tới cả nhà 🏠
         <div class="photo-row">
           <img src="pic/b%C3%A1ch.jpg" alt="Bách" class="photo-thumb" />
           <img src="pic/phong.jpg" alt="Phong" class="photo-thumb" />
@@ -889,6 +895,36 @@
         },
         { passive: true },
       );
+
+      // ═══════════════════════════════════════════
+      //  BACKGROUND MUSIC CONTROL
+      // ═══════════════════════════════════════════
+      const soundBtn = document.getElementById("soundBtn");
+      const audio = document.getElementById("bg-music");
+      let isPlaying = false;
+
+      // Try to auto-play (might be blocked by browser policy)
+      window.addEventListener('click', () => {
+        if (!isPlaying) toggleMusic();
+      }, { once: true });
+
+      soundBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMusic();
+      });
+
+      function toggleMusic() {
+        if (isPlaying) {
+          audio.pause();
+          soundBtn.innerText = "🔇";
+          isPlaying = false;
+        } else {
+          audio.play().then(() => {
+            soundBtn.innerText = "🔊";
+            isPlaying = true;
+          }).catch(e => console.log("Audio play failed:", e));
+        }
+      }
     </script>
   </body>
 </html>
